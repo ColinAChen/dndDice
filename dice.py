@@ -22,21 +22,37 @@ def getRolling():
 	
 	die = input('d:?')
 
-	while (die != "done"):
-		rollingDelay()
-		out,lucky = rollDice(die)
-		resp = randResponse()
-		if (lucky and lucky != 'Nothing'):
-			resp = 'Luck smiles upon you with a,'
-		if (not lucky):
-			resp = 'Luck frowns upon you with a,'
+	while (die.lower() != "done"):
+		if (checkInput (die) != False and checkInput(die) < 10000):
 
-		print (resp, out, '!')
-		die = input('d:?')
-	if (die == 'done'):
-		print ('Thanks for playing!')
-		listener()
+			rollingDelay()
+			out,lucky = rollDice(die)
+			resp = randResponse()
+			if (lucky and lucky != 'Nothing'):
+				resp = 'Luck smiles upon you with a,'
+			if (not lucky):
+				resp = 'Luck frowns upon you with a,'
 
+			print (resp, out, '!')
+			die = input('d:?')
+		else:
+			print ('Invalid input! Input must be a reasonable number of faces.')
+			die = input('d:?')
+
+			continue
+
+
+	
+	print ('Thanks for playing!')
+	listener()
+
+
+def checkInput(userIn):
+	try:
+		return int(userIn)
+	except:
+		return False
+		
 def rollDice(num):
 	
 	num = int(num)
@@ -116,14 +132,13 @@ def tester():
 			 
 
 def listener():
-	action = input ("""Type \'roll\' to roll dice, \'test\' to test the'
-	 roller, and \'add\' to add a response: """)
+	action = input ("""Type \'roll\' to roll dice or \'test\' to test the'
+	 roller: """)
 	if (action.find('roll') != -1):
 		getRolling()
 	elif(action.find('test') != -1):
 		tester()
-	'''elif(action.find('add', beg = 0, end = len(action)) != -1):
-		tester()'''
+
 	print ('Thanks for playing!')
 
 
